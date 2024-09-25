@@ -1,14 +1,15 @@
-export class Boleto {
+import { FormaDePagamento } from "./forma";
+
+export class Boleto extends FormaDePagamento {
     private _razaoSocial: string;
     private _codigoDeBarras: number;
     private _dataDeVencimento: Date;
-    private _dataAtual: Date;
 
-    constructor(razaoSocial: string, codigoDeBarras: number, dataDeVencimento: Date, dataAtual: Date) {
+    constructor(valor: number, status: string, dataDePagamento: Date, razaoSocial: string, codigoDeBarras: number, dataDeVencimento: Date) {
+        super(valor, status, dataDePagamento);
         this._razaoSocial = razaoSocial;
         this._codigoDeBarras = codigoDeBarras;
         this._dataDeVencimento = dataDeVencimento;
-        this._dataAtual = dataAtual;
     }
 
     get razaoSocial() {
@@ -48,44 +49,22 @@ export class Boleto {
         }
     }
 
-    get dataAtual() {
-        return this._dataAtual;
-    }
-
-    set dataAtual(value: Date) {
-        if (value > new Date()) {
-            console.log("Data atual não pode ser futura.");
-        } else {
-            this._dataAtual = value;
-        }
-    }
-
-    // Método de validação
-    validarDataDeVencimento(): boolean {
-        if (!this.razaoSocial || !this.codigoDeBarras || !this.dataDeVencimento) {
-            console.log("Dados incompletos.");
-            return false;
-        }
-
-        if (this.dataDeVencimento <= this.dataAtual) {
+    validarBoleto(): boolean {
+        const dataAtual = new Date();
+        if (this._dataDeVencimento <= dataAtual) {
             console.log("Boleto vencido.");
             return false;
         }
-
-        console.log("Boleto válido com sucesso.");
         return true;
     }
 
     processarPagamento() {
-        if (this.validarDataDeVencimento()) {
-            console.log("Pagamento processado com sucesso.");
+        if (this.validarBoleto()) {
         } else {
             console.log("Falha ao processar o pagamento.");
         }
     }
 }
 
-
-const boleto1 = new Boleto("ADA TECH", 23456789012345678, new Date("2025-10-01"), new Date("2024-05-02"));
-console.log(boleto1);
-boleto1.validarDataDeVencimento();
+const boleto = new Boleto(150, "pendente", new Date("24-05-2001"), "ADA TECH", 123456789012345678, new Date("2025-09-01"));
+boleto.processarPagamento();

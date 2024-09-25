@@ -9,7 +9,6 @@ export class FormaDePagamento {
         this._dataDePagamento = dataDePagamento;
     }
 
-
     get valor() {
         return this._valor;
     }
@@ -53,8 +52,3 @@ export class FormaDePagamento {
         console.log("Pagamento efetuado!");
     }
 }
-
-
-const pagamento1 = new FormaDePagamento(150, "pendente", new Date("2024-09-30"));
-console.log(pagamento1);
-pagamento1.realizarPagamento();

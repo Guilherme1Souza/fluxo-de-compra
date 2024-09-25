@@ -1,102 +1,54 @@
-export class Pix {
-    private _nome: string;
-    private _chave: string;
-    private _dataDeAgendamento: Date;
-    private _nomeDoBanco: string;
-    private _status: string;
+import { FormaDePagamento } from "./forma";
 
-    constructor(nome: string, chave: string, dataDeAgendamento: Date, nomeDoBanco: string, status: string) {
-        this._nome = nome;
-        this._chave = chave;
-        this._dataDeAgendamento = dataDeAgendamento;
-        this._nomeDoBanco = nomeDoBanco;
-        this._status = status;
+export class Pix extends FormaDePagamento {
+    private _chavePix: string;
+    private _nomeBanco: string;
+
+    constructor(valor: number, status: string, dataDePagamento: Date, chavePix: string, nomeBanco: string) {
+        super(valor, status, dataDePagamento);
+        this._chavePix = chavePix;
+        this._nomeBanco = nomeBanco;
     }
 
-    // Getters e Setters
-    get nome(): string {
-        return this._nome;
+    get chavePix(): string {
+        return this._chavePix;
     }
 
-    set nome(value: string) {
+    set chavePix(value: string) {
         if (!value) {
-            console.log("Nome inválido.");
+            console.log("Chave Pix inválida.");
         } else {
-            this._nome = value;
+            this._chavePix = value;
         }
     }
 
-    get chave(): string {
-        return this._chave;
+    get nomeBanco(): string {
+        return this._nomeBanco;
     }
 
-    set chave(value: string) {
-        if (!value) {
-            console.log("Chave inválida.");
-        } else {
-            this._chave = value;
-        }
-    }
-
-    get dataDeAgendamento(): Date {
-        return this._dataDeAgendamento;
-    }
-
-    set dataDeAgendamento(value: Date) {
-        const dataAtual = new Date();
-        if (value < dataAtual) {
-            console.log("Data de agendamento inválida.");
-        } else {
-            this._dataDeAgendamento = value;
-        }
-    }
-
-    get nomeDoBanco(): string {
-        return this._nomeDoBanco;
-    }
-
-    set nomeDoBanco(value: string) {
+    set nomeBanco(value: string) {
         if (!value) {
             console.log("Nome do banco inválido.");
         } else {
-            this._nomeDoBanco = value;
+            this._nomeBanco = value;
         }
     }
 
-    get status(): string {
-        return this._status;
-    }
-
-    set status(value: string) {
-        if (!value) {
-            console.log("Status inválido.");
-        } else {
-            this._status = value;
-        }
-    }
-
-    // Método de validação
-    ValidarPix(): boolean {
-        if (!this._nome || !this._chave || !this._dataDeAgendamento || !this._nomeDoBanco || !this._status) {
-            console.log("Dados incompletos.");
+    validarPix(): boolean {
+        if (!this._chavePix) {
+            console.log("Chave Pix inválida.");
             return false;
         }
-
-        console.log("Pix válido com sucesso.");
         return true;
     }
 
-    // Método para processar o pagamento
-   public processarPagamento() {
-        if (this.ValidarPix()) {
-            console.log("Pagamento processado com sucesso.");
+    processarPagamento() {
+        if (this.validarPix()){
         } else {
             console.log("Falha ao processar o pagamento.");
         }
     }
 }
 
-
-const formasdepagamento = new Pix("Guilherme", "(15) 1515-5188", new Date("2024-10-05"), "Nunk", "Processando");
-console.log(formasdepagamento);
-formasdepagamento.processarPagamento();
+const pix = new Pix(100, "pendente", new Date("24-05-2024"), "gs25@gmail.com", "Banco Nu");
+pix.processarPagamento();
